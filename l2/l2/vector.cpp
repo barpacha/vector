@@ -7,8 +7,9 @@ public:
 	{
 		friend Iterator Vector<T>::begin();
 		friend Iterator Vector<T>::end();
+		friend void Vector<T>::insert(Iterator iterator, T data);
 	public:
-		Iterator();
+
 		Iterator(const Iterator &copy);
 		Iterator operator++(int);
 		T operator*();
@@ -16,6 +17,7 @@ public:
 		bool operator==(const Iterator& right);
 		bool operator!=(const Iterator& right);
 	private:
+		Iterator();
 		T * pointer;
 	};
 	Vector();
@@ -47,14 +49,14 @@ Vector<T>::Vector(const Vector & copy)
 {
 	resize(copy._size);
 	for (int i = 0; i < copy._size; i++)
-		mas[i] = copy[i];
+		mas[i] = copy.mas[i];
 }
 
 template<typename T>
 Vector<T>::Vector(T mass[], int size)
 {
 	resize(size);
-	for (int i = 0; i < copy._size; i++)
+	for (int i = 0; i < size; i++)
 		mas[i] = mass[i];
 }
 
@@ -67,10 +69,11 @@ Vector<T>::~Vector()
 template<typename T>
 void Vector<T>::insert(Iterator iterator, T data)
 {
+	int i = (iterator.pointer - mas);
 	resize(_size + 1);
-	for (int i = (iterator.pointer - mas) / sizeof(T); i < _size; i++)
-		mas[i + 1] = mas[i];
-	mas[(iterator.pointer - mas) / sizeof(T)] = data;
+	for (int a = _size - 1; a > i; a--)
+		mas[a] = mas[a - 1];
+	mas[i] = data;
 }
 
 template<typename T>
